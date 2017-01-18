@@ -1,0 +1,353 @@
+#!/bin/zsh
+#
+#backups adn rollback
+#
+#extract the inforation #store the info with loop
+#store in array
+
+############################################
+#for future ref:
+#list must be in format
+#[LINE 1]Sunday : 07:00-13:00 17:00-20:30
+#[LINE 2]Monday : 11:00-17:00 20:00-22:00
+#            |
+#            |
+#            |
+#[LINE 49]Saturday : 04:00-15:00 20:00-30:00
+#############################################
+
+url=http://battigayo.com/schedule/
+#url=http://admin.myrepublica.com/load-shedding.html
+today=(`date +%a`)
+dayInNumber=$((1+$(date +%w)))
+H=(`date +%H`)
+M=(`date +%M`)
+S=(`date +%S`)
+
+#### DEFAULT VALUES ####
+group=4 
+remainTime="default"
+#to store teh value 32- 3 line janxa
+storeText=""
+#to store there is light or not
+result=""
+groupText=`tput setaf 7`
+dayText=`tput setaf 7`
+dayBg=`tput setab 4`
+mainBg=`tput setab 7`
+mainFg=`tput setaf 0`
+selectFg=`tput setaf 1`
+ul=`tput smul`
+reset=`tput sgr0`
+red=`tput setaf 1`
+green=`tput setaf 2`
+colorStatus=""
+
+##download schedule insted of porn ;)
+function download {
+    echo "<--------------------------------->"
+    echo "Checking your internet connection"
+    wget -q --spider http://google.com
+    if [ $? -eq 0 ]; then
+        echo "Internet Connection Available"
+    else
+        echo "Failed to update !!!"
+        echo "Please connect to internet"
+        exit 0
+    fi
+    echo "Downloading from the sites"
+        
+    #download the schedule
+    #curl -s $url | grep -A 55 "Group 1" > ${HOME}/.cache/load.txt
+    curl --progress-bar $url | grep -A 55 "Group 1" > ${HOME}/.cache/load.txt
+    echo "Extracting information"
+    #removes the tags
+    sed -ie 's/<[^>]*>//g; /&nbsp;/d; s/^ *//g' ${HOME}/.cache/load.txt
+    ##It gives the output as top references
+    #changes must be made upto this if reference changes
+    echo "Schedule sucessfully updated"
+    echo "<--------------------------------->"
+}
+
+##for the array 
+##IFS just makes the word boundary to new line
+#cauze zsh handles per word
+IFS=$'\n'
+#arr=($(cat /tmp/load.txt))
+##for testing offline
+arr=(`cat ${HOME}/.cache/load.txt`)
+unset IFS
+
+##for the line of loadshedding
+declare -A line
+declare -A line2
+
+function store {
+    ##size of the tables
+    rows=7
+    columns=7
+    #temporary variables
+    #stores and count no of lines to store the raw data to the array
+    count=1;
+    #add the valuse i [1,1],[1,2]...
+    for ((i=1;i<=rows;i++)) do
+        for ((j=1;j<=columns;j++)) do
+            #this returns first part of time in 04:23 format
+            tim=(`echo "${arr[$count]}" | grep -o '[0-9][0-9]:[0-9][0-9]-[0-9][0-9]:[0-9][0-9]' `)
+            ##store the variable in the variable
+             line[$i,$j]="${tim[1]}"
+             line2[$i,$j]="${tim[2]}"
+    #       echo "$table[$i,$j]"
+            ##testing count
+            ##echo "Count is $count"
+            count=$((count+1))
+        done
+    done
+}
+
+function fullSchedule {
+    #calll the store before this function
+    store
+    #it just maintain the gaps between the rows of emements
+    gap1="%2s"
+    gap2=" %9s"
+    gap3=" %8s"
+    printf "$gap1" ''
+    
+    #for the top bar
+    #prints the top bar which is day
+    echo
+    for ((i=1;i<=rows;i++)) do
+        day=($(echo "${arr[$i]}" | cut -d":" -f1 | grep -o "^..." ))
+        printf "$gap2" "${dayBg}"
+        printf "$gap2" "${dayBg} $day  "
+        printf "$gap1" "${dayBg}${reset}"
+    done
+    echo;echo
+    #print the value, main place
+    #prints the side bar with data
+    for ((j=1;j<=columns;j++)) do
+        #for the side bar
+        printf "$gap1" "${groupText}$j${reset} "
+        #for printing the first line
+        for (( i=1;i<=rows;i++ )) do
+            #for the main data row wise
+            day=(`echo "${arr[$i]}" | cut -d":" -f1 | grep -o "^..." `)
+            ##check if today is the day, then prints in color formate
+         if [[ ("$day" == "$today") || ( "$j" == "$1") ]]; then
+           printf "$gap2" "${mainBg}${selectFg}${line[$j,$i]}${reset}"
+        else
+           printf "$gap2" "${mainBg}${mainFg}${line[$j,$i]}${reset}"
+        fi
+        done
+        echo
+            printf "$gap1" " "
+            for (( i=1;i<=rows;i++ )) do #for the main data row wise
+            day=(`echo "${arr[$i]}" | cut -d":" -f1 | grep -o "^..." `)
+            ##check if today is the day, then prints in color formate
+         if [[ ("$day" == "$today") || ( "$j" == "$1") ]]; then
+           printf "$gap2" "${ul}${mainBg}${selectFg}${line2[$j,$i]}${reset}"
+        else
+           printf "$gap2" "${ul}${mainBg}${mainFg}${line2[$j,$i]}${reset}"
+        fi
+        done
+        echo
+    done
+}
+function today {
+    ##call the methods
+    store
+    ##calls the current status for analyazing status
+    status
+    ##prints the status
+    echo ""
+    echo "$result"
+    echo "$storeText"
+    echo ""
+    printf "%s\n" "Schedule of group $group are: " "${line[$group,$dayInNumber]}" "${line2[$group,$dayInNumber]}"
+    echo ""
+}
+##for the week
+function week {
+    store
+    status
+    echo "<-------------------------------------->"
+    echo "<---- Weekly Schedule For group $group ----->"
+    for (( i=1; i<=rows; i++ )) do
+            echo "----------------------------------------"
+            dey=`echo "${arr[$i]}" | cut -d":" -f1 | grep -o "^..."`
+            printf "%s\t\t" "$dey"
+         if [[ ("$dey" == "$today") ]]; then
+            printf "%s,%s" "${colorStatus}${line[$group,$i]}" "${line2[$group,$i]}${reset}"
+        else
+            printf "%s,%s" "${line[$group,$i]}" "${line2[$group,$i]}"
+        fi
+            echo ""
+    echo "----------------------------------------"
+    done
+}
+
+function status {
+    getTime="${line[$group,$dayInNumber]}-${line2[$group,$dayInNumber]}"
+    IFS=':-' read h1 m1 h2 m2 h3 m3 h4 m4 <<< "$getTime"
+    ##check the condition for light on and off
+    if [[ (( "$H" -ge "$h1") && ("$H" -lt "$h2")) || (("$H" -ge "$h3") && ("$H" -lt "$h4")) ]]; then
+        ##test which group it falls on
+        result="${red}---->NO LIGHTS<----${reset}"
+        if [[ (( "$H" -lt "$h2" )) ]]; then
+            ##echo "it lies in group $h1 to $h2"
+            storeText="Lights comes after: `calculate $H $M $S $h2 $m2 00`"
+            colorStatus="$red"
+        else
+          ##  echo "It lies in group $h3 to $h4"
+            storeText="Light comes after: `calculate $H $M $S $h4 $m4 00`"
+            colorStatus="$red"
+        fi
+    else
+        result="${green}---->THERE IS LIGHT<----\n${reset}"
+        if [[ (( "$H" -lt "$h1" )) ]]; then
+            #echo "It lies below $h1"
+            storeText="Light goes after: `calculate $h1 $m1 00 $H $M $S`"
+            colorStatus="$green"
+        elif [[ (("$H" -ge "$h2") && ("$H" -lt "$h3")) ]]; then
+            #echo "It lies between $h2 and $h3"
+            storeText="Light goes after: `calculate $H $M $S $h3 $m3 00`"
+            colorStatus="$green"
+        else
+            result+="No loadshedding for the day"
+        fi
+    fi
+}
+##returns the difference in time
+function calculate {
+    now="$1:$2:$3"
+    passed="$4:$5:$6"
+    ##big
+    FinalDate=`date -u -d "$passed" +"%s"`
+    #small
+    StartDate=`date -u -d "$now" +"%s"`
+    ##for other purposes
+    remainTime=`date -u -d "0 $FinalDate sec - $StartDate sec" +"%H:%M:%S"`
+    #echo "REMAIN time $remainTime"
+    date -u -d "0 $FinalDate sec - $StartDate sec" +"%H:%M:%S"
+}
+
+function usage { cat << EOF
+
+    Written by blacpythoz <blacpythoz@gmail.com> -https://blacpythoz.github.io"
+
+    usage: load [OPTIONS] [GROUP_NO]
+
+    Info:
+    -a [default]        Show all schedule 
+    -g [group [1-7]]    Select the groups
+    -t [group no]       Show the today schedule
+    -C [true/fase]      Toogle the color options
+    -h [topics]         Print this text and exit
+    -G [Color codes]    Sets the color of the side bar text 
+    -d [Color codes]    Sets the foreground color of day text
+    -D [Color codes]    Sets the background color of days
+    -B [Color codes]    Sets the background color of tables
+    -F [Color codes]    Sets the foreground color of tables
+    -S [Color codes]    Sets the Selected foreground color of tables
+    -U [Color codes]    Sets the underline in the tables data
+
+[COLOR CODES]
+      natural = natural
+black = 0            red    = 1
+green = 2            yellow = 3
+blue  = 4            magenta= 5
+cyan  = 6            white  = 7
+    
+EOF
+exit 1
+}
+
+#for the views
+show=1
+while getopts ":aug:t:w:T:G:d:D:B:F:S:U:C:" o; do
+    case "${o}" in
+        a)
+						show=1
+           ;;
+        u)
+            download
+            ;;
+        g)
+            group=${OPTARG}
+            ;;
+				t)
+            group=${OPTARG}
+						show=2
+						;;
+        w)
+            group=${OPTARG}
+            show=3
+            ;;
+        T)
+           group=${OPTARG}
+           store
+           status
+           echo "$storeText"
+           ##exit as it prevenest full list from displaying
+           exit;
+            ;;
+        G)
+             groupText=`tput setaf ${OPTARG}`
+             ;;
+        d)
+            dayText=`tput setaf ${OPTARG}`
+            ;;
+        D)
+            dayBg=`tput setab ${OPTARG}`
+            ;;
+        B)
+            mainBg=`tput setab ${OPTARG}`
+            ;;
+        F)
+            mainFg=`tput setaf ${OPTARG}`
+            ;;
+        S)
+            selectFg=`tput setaf ${OPTARG}`
+            ;;
+        U)
+            if [[ "${OPTARG}" == "false"  ]]; then
+                ul=""
+            fi
+            ;;
+        C) 
+            if [[ "${OPTARG}" == "false" ]]; then
+                groupText=""
+                dayText=""
+                dayBg=`tput setab natural`
+                mainBg=""
+                mainFg=""
+                selectFg=""
+                ul=""
+            fi
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+##check for the group values
+if [[ (("$group" -gt 7) ||  ("$group" -le 0)) ]]; then
+    echo "Usage: load -g [1-7]  :Group must be between 1 and 7"
+    exit 1
+fi
+
+#Checks the conditions
+if [[ "$show" == 1 ]]; then
+    fullSchedule $group
+elif [[ "$show" == 2 ]]; then
+    today
+elif [[ "$show" == 3 ]]; then
+    week
+else
+    echo "Read the manual"
+    echo "Zzzzzzzzz...."
+    exit 1;
+fi

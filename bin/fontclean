@@ -1,0 +1,13 @@
+#!/bin/sh
+
+cd ~/.local/share/fonts
+
+test -f fonts.dir && rm -f fonts.dir
+test -f fonts.scale && rm -f fonts.scale
+
+mkfontdir
+mkfontscale
+fc-cache
+fc-cache -fv
+xset +fp $PWD
+xset fp rehash

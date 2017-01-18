@@ -1,0 +1,11 @@
+#!/bin/bash
+#for toogling the bars in bspwm
+
+PANEL_PID=$(pidof lemonbar)
+if [[ $PANEL_PID ]]; then
+	kill -9 $PANEL_PID
+  bspc config top_padding 0
+else
+	~/.config/bspwm/panel/panel &
+  bspc config top_padding 15
+fi

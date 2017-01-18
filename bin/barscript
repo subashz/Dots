@@ -1,0 +1,78 @@
+#!/bin/zsh
+
+NBARS=$(echo $(cat $HOME/bin/barscript | grep "## " | wc -l))
+
+CBARS=$(echo $(ps aux | grep lemonbar | wc -l))
+
+if [ $CBARS -ge $NBARS ] ; then exit 0; fi
+
+sleep 0.5
+
+#FONT="-ypn-envypn-medium-r-normal--15-150-75-75-c-90-iso8859-1"
+FONT="PragmataProMono:style=Bold:size=11"
+FCOLOR1="#e2e2e2"
+FCOLOR2="#ff4936"
+FCOLOR3="#280202"
+BCOLOR1="#181818"
+BCOLOR2="#86261c"
+BCOLOR3="#bb3627"
+
+BAROPTS="-u 2 -U $FCOLOR2 -B $BCOLOR1 -F $FCOLOR1 -f $FONT -b -d"
+
+## WORKSPACES
+FCOLOR2="#ff4936"
+xprop -spy -root _NET_CURRENT_DESKTOP | \
+while read line; do
+  num=$(echo $line | awk '{print $3}')
+  echo -n "%{c}"
+  case $num in
+    0) echo " %{F$FCOLOR2}%{+u} 1 %{F-}%{-u}  2   3   4   5 " ;;
+    1) echo "  1  %{F$FCOLOR2}%{+u} 2 %{F-}%{-u}  3   4   5 " ;;
+    2) echo "  1   2  %{F$FCOLOR2}%{+u} 3 %{F-}%{-u}  4   5 " ;;
+    3) echo "  1   2   3  %{F$FCOLOR2}%{+u} 4 %{F-}%{-u}  5 " ;;
+    4) echo "  1   2   3   4  %{F$FCOLOR2}%{+u} 5 %{F-}%{-u}" ;;
+  esac
+done | lemonbar $BAROPTS -g "640x26+640+0" &
+
+## MUSIC
+FLAG=""
+NCMLAUNCH="urxvtc -g 60x12 -e ncmpcpp"
+MTOGGLE="mpc toggle > /dev/null"
+MSETTINGS="%{B$BCOLOR2}%{O10}%{A:$MTOGGLE:}%{A3:$NCMLAUNCH:}"
+while :; do
+  if [ ! "x$FLAG" = "x" ] ; then mpc idle > /dev/null; fi
+  FLAG="f"
+  current=$(echo -n $(mpc status) | sed 's/].*/]\ \ /' | sed 's/volume.*//')
+  if [ "x$current" = "x" ] ; then current="[None]  "; fi
+  echo "$MSETTINGS$current%{A3}%{A}%{B-} "
+done | lemonbar $BAROPTS -a 2 -g "640x26+0+0" | sh &
+
+## CLOCK
+while :; do
+  echo "%{r}%{B$BCOLOR2}$(date '+  %a %b %_d %Y %H:%M  ')%{B-}";
+  sleep 15;
+done | lemonbar $BAROPTS -g "500x26+1280+0" &
+
+## AC STATUS
+ARG=""
+while :; do
+  acpi_listen -c $ARG > /dev/null 2>&1
+  ARG=1
+  echo -n "%{B$BCOLOR3}%{l}%{O15}"
+  acpi | awk '{if ($3 != "Discharging,")
+                 printf("AC: On   \n");
+               else
+                 printf("AC: Off  \n");}'
+done | lemonbar $BAROPTS -g "75x26+1780+0" &
+
+## BATTERY
+while :; do
+  bat=$(acpi | awk '{gsub("[%,]", ""); print $4}')
+  WRN=""
+  if [ 15 -ge $bat ] ; then
+    if [ 3 -ge $bat ] ; then mpg123 $HOME/.res/alert.mp3 ; fi
+    WRN="%{F$FCOLOR3}"
+  fi
+  echo "%{B$BCOLOR3}%{r}${WRN}  Bat: ${bat}%{F-}%{O10}%{B-}"
+  sleep 45;
+done | lemonbar $BAROPTS -g "65x26+1855+0" &

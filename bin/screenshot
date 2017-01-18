@@ -1,0 +1,7 @@
+#!/bin/bash
+
+timestamp="$(date +%Y%m%d%H%M%S)"
+targetbase="$HOME/media/pics/shots/"
+mkdir -p $targetbase
+[ -d $targetbase ] || exit 1
+scrot -c -d 3 -q 100 $targetbase/$timestamp.png

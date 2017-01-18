@@ -1,0 +1,23 @@
+USER=`whoami`
+KERNEL=`uname -r`
+OS=`hostnamectl status | awk 'NR==7{print $3,$4}'`
+HOST=`hostnamectl status | awk 'NR==1{print $3}'`
+ROOT_TOT=`df -h | awk 'NR==2{print $2}' | sed 's/G//g'`
+ROOT_OCCUPIED=`df -h | awk 'NR==2{print $3}' | sed 's/G//g'`
+PACKAGES=`pacman -Qq | wc -l`
+CPU=`echo -e : $(cat /proc/cpuinfo | awk 'NR==5{$1=$2=$3="";print}')`
+CONNECTION=`[[ -x /usr/bin/iwgetid ]] && echo -e $(iwgetid -r) || echo "missing iw package"`
+RES="\033[0m"
+BLUE="\033[0;34m"
+ 
+echo -e "${BLUE}User${RES} : $USER"
+echo -e "${BLUE}Host${RES} : $HOST"
+echo -e "${BLUE}OS${RES} : $OS"
+echo -e "${BLUE}Kernel${RES} : $KERNEL"
+echo -e "${BLUE}Cpu${RES} $CPU"
+echo -e "${BLUE}Root${RES} : $ROOT_OCCUPIED/$ROOT_TOT GB"
+echo -e "${BLUE}Packages${RES} : $PACKAGES"
+echo -e "${BLUE}Term${RES} : $(echo $TERM)"
+echo -e "${BLUE}Shell${RES} : $(echo $SHELL)"
+echo -e "${BLUE}Wifi${RES} : $CONNECTION"
+echo -e "${BLUE}Editor${RES} : $(echo $EDITOR)"
