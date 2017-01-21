@@ -1,0 +1,49 @@
+# Source of colors
+source "${HOME}/.cache/wal/colors.sh"
+
+set_bar() {
+			pkill lemonbar 
+			~/bin/panel2 &
+}
+
+set_scss() {
+    sassc --style expanded ~/bin/startpage/old/scss/style.scss > ~/bin/startpage/old/style.css                      
+    sassc --style expanded ~/.config/qutebrowser/stylesheets/custom.scss > ~/.config/qutebrowser/stylesheets/custom.css                      
+}
+
+set_bspwm() {
+    bspc config focused_border_color "$color2" &
+    bspc config normal_border_color "$color0"  &
+}
+
+set_qute() {
+    pgrep qutebrowser && qutebrowser ":set ui user-stylesheet ~/.config/qutebrowser/stylesheets/custom.css" &
+    qutebrowser ":set colors webpage.bg $color0" \
+    ":set colors completion.alternate-bg $color0" \
+    ":set colors completion.bg $color0" \
+    ":set colors downloads.bg.stop $color0" \
+    ":set colors statusbar.bg $color0" \
+    ":set colors tabs.bg.bar $color0" \
+    ":set colors tabs.bg.even $color0" \
+    ":set colors tabs.bg.odd $color0" \
+    ":set colors tabs.bg.selected.even $color0" \
+    ":set colors tabs.bg.selected.odd $color0" \
+    ":set colors completion.category.bg $color11" \
+    ":set colors completion.category.border.top $color11" \
+    ":set colors completion.category.border.bottom $color11" \
+    ":set colors statusbar.bg.insert $color11" \
+    ":set colors tabs.fg.selected.even $color1" \
+    ":set colors tabs.fg.selected.odd $color1" \
+    ":set colors hints.fg white" \
+    ":set colors hints.bg $color0" \
+    ":set colors hints.fg.match $color11" \
+    ":set colors statusbar.url.fg $color11" &
+}
+
+main() {
+    set_scss &
+		set_qute &
+    set_bar &
+}
+
+main >/dev/null 2>&1
