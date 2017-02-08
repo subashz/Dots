@@ -1,0 +1,59 @@
+# Extract Files
+extract() {
+  if [ -f $1 ] ; then
+    case $1 in
+       *.tar.bz2)   tar xvjf $1    ;;
+       *.tar.gz)    tar xvzf $1    ;;
+       *.tar.xz)    tar xvJf $1    ;;
+       *.bz2)       bunzip2 $1     ;;
+       *.rar)       unrar x $1     ;;
+       *.gz)        gunzip $1      ;;
+       *.tar)       tar xvf $1     ;;
+       *.tbz2)      tar xvjf $1    ;;
+       *.tgz)       tar xvzf $1    ;;
+       *.zip)       unzip $1       ;;
+       *.Z)         uncompress $1  ;;
+       *.7z)        7z x $1        ;;
+       *.xz)        unxz $1        ;;
+       *.exe)       cabextract $1  ;;
+       *)           echo "\`$1': unrecognized file compression" ;;
+    esac
+  else
+    echo "\`$1' is not a valid file"
+  fi
+}
+
+# grab pid
+pids() { ps aux | grep "$1" ;}
+
+# Nice mount output
+nmount() { (echo "DEVICE PATH TYPE FLAGS" && mount | awk '$2=$4="";1') | column -t; }
+
+# Create pdf of man page - requires ghostscript and mimeinfo
+manpdf() { man -t "$@" | ps2pdf - /tmp/manpdf_$1.pdf && xdg-open /tmp/manpdf_$1.pdf ;}
+
+#added function to copy the files to the x selection
+transfer() { if [ $# -eq 0 ]; then echo "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi
+tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; cat $tmpfile | tail -n 1| xclip -selection c; echo "Copied to clip"; rm -f $tmpfile; } 
+
+#piratebay search
+tpb() { clear && figlet -c Pirate Bay && ~/bin/tpb.sh ;}
+
+#youtube viewer
+yt-viewer() { clear && figlet -c Youtube Viewer && youtube-viewer ;}
+
+#No video/ music only
+yt-listen() { clear && figlet -c Youtube Listen && youtube-viewer -n $@ ; }
+
+#CLI calculator
+calc() { python -ic "from __future__ import division; from math import *; from random import *" ;}
+
+##check if website are down
+down4me() {curl -s "http://www.downforeveryoneorjustme.com/$1" | sed '/just you/!d;s/<[^>]*>//g';}
+
+#for the compiling the gtk application
+cg() { 
+    g++ $1.cc -o $1 `pkg-config gtkmm-3.0 --cflags --libs`
+}
+
+

@@ -1,0 +1,196 @@
+## COPY AND PASTE
+alias setclip='xclip -selection c'
+alias getclip='xclip -selection clipboard -o'
+#for the pastebin
+alias pasteb='pastebinit | xclip -selection c | echo "To clipboard"'
+
+## SHORTCUTS
+alias k='killall'
+alias kt='killall termite'
+alias rt='rtv --enable-media'
+alias kb="killall bspwm"
+alias off='systemctl poweroff'
+alias rm='rm -iv'
+alias s='startx'
+alias l='ls -l | coloredls'
+alias xup='xrdb .Xresources'
+alias ls='ls -h --color=never'
+alias py='python3'
+alias v='vim'
+alias m='mutt'
+alias z='zathura'
+alias r='ranger'
+alias we='weechat'
+alias rp='killall panel; panel &'
+alias findh='find ~/ -iname'
+alias homepage='cd ~/bin/startpage; qutebrowser index.html &'
+alias fb='qutebrowser https://facebook.com &'
+alias mpvw='mpv --aspect=16:9'
+alias pipupdate='pip-review --auto'
+alias commands='more ~/.oh-my-zsh/zsh_aliases | grep alias | cut -d" " -f2- -s | more'
+alias n='ncmpcpp'
+alias y='mpsyt'
+alias x='exit'
+alias g='grep'
+alias knews='konsole -e newsbeuter'
+alias news='newsbeuter'
+alias tmux='tmux -2uv'
+alias bat='cat /sys/class/power_supply/BAT1/uevent'
+alias alsi='alsi --bold green'
+
+# Suprise
+alias supriseme='~/bin/wal -q -i /home/deadsec/media/pics/walls/bloody.jpg > t.txt ; /home/deadsec/bin/walSet > k.txt '
+## SUDO SHORTCUTS
+alias starthome='sudo netctl start wifi-home'
+alias rehome='sudo netctl stop-all; sleep 2; sudo netctl start wifi-home'
+alias aircrack-ng='sudo aircrack-ng'
+alias reaver='sudo reaver'
+alias findr='sudo find / -name'
+alias sv='sudo vim'
+alias airmon-ng='sudo airmon-ng'
+alias reboot='sudo reboot'
+alias u='sudo -s'
+
+## MOUNTING
+alias usb='sudo mount -t vfat /dev/sdb /mnt/usb; cd /mnt/usb'
+alias usb1='sudo mount -t vfat /dev/sdb1 /mnt/usb; cd /mnt/usb'
+alias cdrom='sudo mount -t iso9660 -o ro /dev/cdrom /mnt/cdrom; cd /mnt/cdrom'
+alias win2='sudo ntfs-3g /dev/sda4 /mnt/storage; cd /mnt/storage'
+alias win='sudo ntfs-3g /dev/sda5 /mnt/cdrive';
+alias win1='sudo ntfs-3g /dev/sda2 /mnt/drive';
+## PHONE SSH
+alias phone='sshfs root@192.168.0.100:/storage/emulated/0 ~/ph/ -p 22'
+alias uphone='sudo umount ~/Phone/'
+#auto mount phone
+#~/bin/mount/adbfs ~/phone
+
+## BINS
+alias showtrash='cd ~/.local/share/Trash; ranger'
+alias emptytrash='sudo rm -r ~/.local/share/Trash; mkdir ~/.local/share/Trash'
+
+## TODOS
+alias tdl='echo "-------------------------------" && clear && todo.sh list'
+alias tda='todo.sh add'
+alias dt='todo.sh do'
+alias tdd='todo.sh del'
+alias tdh="todo.sh help"
+
+## NETS
+alias wifion='nmcli radio wifi on'
+alias weather2='curl wttr.in/nepal'
+alias wifioff='nmcli radio wifi off'
+alias netoff='nmcli n off'
+alias neton='nmcli n on'
+alias wd='nmcli_dmenu'
+alias ipinfo='curl ipinfo.io'
+alias ipinfo2='curl ipinfo.io/ip'
+alias grep='grep --color'
+alias outside='cd /home/blacpythoz/bin/bash-weather;bash bash-weather.sh'
+alias ram='sudo ~/bin/ram'
+
+
+## PACMAN 
+alias update='sudo pacman -Syyu'
+alias install='sudo pacman -S'
+alias search='pacman -Ss'
+alias remove='sudo pacman -Rns'
+alias clean='sudo pacman -Scc'
+alias orphan='sudo pacman -Rs $(pacman -Qtdq)'
+alias stayonmypc='sudo pacman -D --asexp'
+alias fuckoff='sudo pacman -D --asdep'
+alias pacinf='pacman -Si'
+alias searchlocal='pacman -Qs'
+alias listfiles='pacman -Ql'
+alias whoisorphan='pacman -Qdt'
+alias upmirrors='sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup; sudo reflector -l 5 --sort rate --save /etc/pacman.d/mirrorlist'
+alias paclog='tail -f /var/log/pacman.log'
+alias pacul='sudo rm /var/lib/pacman/db.lck'
+
+## YAOURT
+alias yorphan='yaourt -Qtd'
+alias aurin='yaourt -S'
+alias aurse='yaourt -Ss'
+alias aurup='yaourt -Syua'
+alias aurinen='LC_ALL=C yaourt -S'
+alias Y='yaourt --noconfirm'
+alias aurinf='yaourt -Si'
+
+## COWER
+alias cowerp='cower --sort=popularity --color=always -s'
+alias cowerv='cower --sort=votes --color=always -s'
+
+## DOTFILES
+alias zshrc='vim ~/.zshrc'
+alias nvimrc='vim ~/.config/nvim/init.vim'
+alias hp="vim ~/.config/herbstluftwm/panel.sh"
+alias irc='vim ~/.config/i3/config'
+alias arc='vim ~/.config/awesome/rc.lua'
+alias awtheme='vim ~/.config/awesome/themes/copland/theme.lua'
+alias ha="vim ~/.config/herbstluftwm/autostart"
+alias vbc="vim ~/.config/bspwm/bspwmrc"
+alias vbp="vim ~/.config/bspwm/panel"
+alias bpc="vim ~/.config/bspwm/panel_colors"
+alias bpb="vim ~/.config/bspwm/panel_bar"
+alias xin='vim ~/.xinitrc'
+alias brc='vim ~/.bashrc'
+alias zrc="vim ~/.zshrc"
+alias vx='vim ~/.Xresources && xup'
+alias ve='vim -u ~/.vimencrypt -x'
+alias awesomerc='vim ~/.config/awesome/rc.lua'
+
+## GIT
+alias gclone='git clone'
+alias gpull='git pull'
+alias gcommit='git commit -m'
+alias gpush='git push'
+alias gadd='git add'
+alias gh='git log --graph --full-history --all --color --pretty=tformat:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s%x20%x1b[33m(%an)%x1b[0m"'
+
+## MISC
+alias grep='/usr/bin/grep --color=always $GREP_OPTIONS'
+unset GREP_OPTIONS
+alias mkpkg='updpkgsums; makepkg -i'
+alias parasite='GTK_MODULES=gtkparasite'
+alias makemelaugh='fortuner2 -- question-answer-jokes'
+alias sessionerrors='echo "" > ~/.xsession-errors'
+alias music='mpd && mpdscribble'
+alias dlmp3='youtube-dl -x --audio-format mp3'
+alias killmusic='mpd --kill && killall mpdscribble'
+alias hc='herbstclient'
+#alias walls='wget https://source.unsplash.com/random/1366x768 -O ~/media/pics/walls/1920x1080.png; feh --bg-fill ~/media/pics/walls/1920x1080.png'
+alias walls='wget https://source.unsplash.com/random/1366x768 -O ~/media/pics/walls/1920x1080.png; wal -i ~/media/pics/walls/1920x1080.png'
+alias walcolor='wal -i ~/media/pics/walls/1920x1080.png'
+alias exe='chmod +x'
+alias gllm='gollum --live-preview --allow-uploads dir --mathjax .'
+alias clnerrors='echo "" > ~/.xsession-errors'
+alias fm='fc-match'
+#for easy of practice
+alias jc='javac -classpath pircbot.jar:. *.java'
+alias jr='java -classpath pircbot.jar:. MyBotMain'
+##arduino
+alias ac='killall screen; screen /dev/ttyACM0'
+#fun
+alias catty='curl cat.thatlinuxbox.com'
+alias redwm='cd ~/dwm-git; updpkgsums; makepkg -fi --noconfirm; killall dwm'
+alias catc='pygmentize -g'
+
+## CD's COMMANDS
+alias cd..='cd ..'
+alias cdgollum='cd /media/DATA/WEB/Gollum'
+alias upterm='xrdb ~/.Xresources'
+alias gcli='cd ~/bin/git/CLI-Tic-Tac-Toe'
+alias clas='cd ~/bin/com/subasharyal/net/'
+alias c='cd ~/tuts/cpp/practice/'
+alias gtk='cd ~/Practice/Gtkmm/'
+alias cv='cd ~/Tuts/C/cvids/'
+alias jp='cd ~/Documents/Java_Files'
+alias cb='cd ~/.config/bspwm/'
+alias hd='cd ~/.config/herbstluftwm/'
+alias cbp='cd ~/.config/bspwm/panel/'
+alias vp='cd ~/Documents/vimPractice'
+alias awdir='cd ~/.config/awesome'
+alias cdbuild='cd /media/DATA/Packages/PKGBUILD'
+
+## SQLS COMMANDS
+alias sql='rlwrap -if ~/coll/database/database/sqlplus.dict -pred sqlplus'
+
