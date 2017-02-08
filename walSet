@@ -1,3 +1,7 @@
+# 
+# Created by blacpythoz
+#
+
 # Source of colors
 source "${HOME}/.cache/wal/colors.sh"
 
@@ -17,8 +21,7 @@ set_bspwm() {
 }
 
 set_qute() {
-    pgrep qutebrowser && qutebrowser ":set ui user-stylesheet ~/.config/qutebrowser/stylesheets/custom.css" &
-    qutebrowser ":set colors webpage.bg $color0" \
+    pgrep qutebrowser && qutebrowser ":set ui user-stylesheet ~/.config/qutebrowser/stylesheets/custom.css" && qutebrowser ":set colors webpage.bg $color0" \
     ":set colors completion.alternate-bg $color0" \
     ":set colors completion.bg $color0" \
     ":set colors downloads.bg.stop $color0" \
@@ -40,10 +43,41 @@ set_qute() {
     ":set colors statusbar.url.fg $color11" &
 }
 
+set_zathura() {
+    rm ~/.config/zathura/zathurarc
+    cp ~/.config/zathura/zathurarcTemplate ~/.config/zathura/zathurarc
+    echo "set recolor-lightcolor \"$color0\"" >> ~/.config/zathura/zathurarc
+    echo "set statusbar-bg \"$color0\"" >> ~/.config/zathura/zathurarc
+    echo "set statusbar-fg \"$color2\"" >> ~/.config/zathura/zathurarc
+    echo "set default-fg #ffffff" >> ~/.config/zathura/zathurarc
+    echo "set completion-fg \"$color2\"" >> ~/.config/zathura/zathurarc
+    echo "set completion-bg \"$color0\"" >> ~/.config/zathura/zathurarc
+    echo "set completion-highlight-fg \"$color0\"" >> ~/.config/zathura/zathurarc
+    echo "set completion-highlight-bg \"$color2\"" >> ~/.config/zathura/zathurarc
+    echo "set completion-group-bg \"$color0\"" >> ~/.config/zathura/zathurarc
+    echo "set completion-group-fg \"$color2\"" >> ~/.config/zathura/zathurarc
+    echo "set inputbar-bg \"$color0\"" >> ~/.config/zathura/zathurarc
+    echo "set inputbar-fg \"$color2\"" >> ~/.config/zathura/zathurarc
+    echo "set tabbar-focus-fg \"$color0\"" >> ~/.config/zathura/zathurarc
+    echo "set tabbar-focus-bg \"$color2\"" >> ~/.config/zathura/zathurarc
+}
+
+set_dmenu_extended()
+{
+    rm ~/.config/dmenu-extended/config/dmenuExtended_preferences.txt 
+    cp ~/.config/dmenu-extended/config/configTemplate ~/.config/dmenu-extended/config/dmenuExtended_preferences.txt 
+    sed -i "s/normalForeground/$color2/" .config/dmenu-extended/config/dmenuExtended_preferences.txt
+    sed -i "s/normalBackground/$color0/" .config/dmenu-extended/config/dmenuExtended_preferences.txt
+    sed -i "s/selectForeground/$color0/" .config/dmenu-extended/config/dmenuExtended_preferences.txt
+    sed -i "s/selectBackground/$color2/" .config/dmenu-extended/config/dmenuExtended_preferences.txt
+}
+
 main() {
     set_scss &
 		set_qute &
     set_bar &
+    set_zathura &
+    set_dmenu_extended &
 }
 
 main >/dev/null 2>&1
