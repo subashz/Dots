@@ -1,0 +1,65 @@
+h1 {
+  font: 18pt 'PragmataPro' !important;
+}
+
+h2 {
+  font: 16pt 'PragmataPro' !important;
+}
+
+h3 {
+  font: 14pt 'PragmataPro' !important;
+}
+
+h4 {
+  font: 12pt 'PragmataPro' !important;
+}
+
+h5 {
+  font: 10pt 'PragmataPro' !important;
+}
+
+html {
+  margin: 3px;
+}
+
+table {
+  font: 10pt 'PragmataPro' !important;
+}
+
+*:not(a), body, td, tr, p {
+  background-color: #20121F !important;
+  background-size: 0,0 !important;
+  color: #bcbcbc !important;
+  font: 8pt 'PragmataPro' !important;
+}
+
+h1, h2, h3, h4 {
+  color: #444444 !important;
+}
+
+button {
+  background-size: auto !important;
+  background-color: #20121F !important;
+  color: #bcbcbc !important;
+}
+
+a {
+  color: #A2575B !important;
+  font: 8pt 'PragmataPro' !important;
+}
+
+a:hover, a:focus {
+  color: #CDA56F !important;
+}
+
+a:visited {
+  color: #A97A82 !important;
+}
+
+article, .container {
+  width: auto !important;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

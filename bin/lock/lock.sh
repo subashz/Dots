@@ -17,5 +17,5 @@ i3lock -u -i "$tmpbg"
 sleep 60
 pgrep i3lock && xset dpms force off
 # remove the image
-rm "$tmpbg"
+#rm "$tmpbg"
 

@@ -1,0 +1,49 @@
+@import '/home/deadsec/.cache/wal/colors.scss';
+
+h1 { font: 18pt 'PragmataPro' !important; }
+h2 { font: 16pt 'PragmataPro' !important; }
+h3 { font: 14pt 'PragmataPro' !important; }
+h4 { font: 12pt 'PragmataPro' !important; }
+h5 { font: 10pt 'PragmataPro' !important; }
+
+html {
+    margin: 3px;
+}
+
+table { font: 10pt 'PragmataPro' !important; }
+
+*:not(a),body,td,tr,p {
+    background-color:$color0 !important;
+    background-size: 0,0 !important;
+    color: #bcbcbc !important;
+    font: 8pt 'PragmataPro' !important; 
+}
+
+h1,h2,h3,h4 {
+    color: #444444 !important
+}
+
+button {
+    background-size: auto !important;
+    background-color:$color0 !important;
+    color: #bcbcbc !important
+}
+
+a {
+    color: $color1 !important;
+    font: 8pt 'PragmataPro' !important; 
+}
+a:hover,a:focus {
+    color: $color12 !important
+}
+a:visited {
+    color: $color5 !important
+}
+
+article, .container {
+  width: auto !important;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

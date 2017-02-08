@@ -11,42 +11,8 @@ execute pathogen#infect()
 
 " -- Mappings -- "
 let mapleader = ','
-"nmap <F4> <Plug>(JavaComplete-Imports-AddSmart)
-"nmap <leader>jI <Plug>(JavaComplete-Imports-AddMissing)
-"nmap <leader>jR <Plug>(JavaComplete-Imports-RemoveUnused) nmap <leader>ji <Plug>(JavaComplete-Imports-AddSmart) nmap <leader>jii <Plug>(JavaComplete-Imports-Add)
-
-"imap <C-j>I <Plug>(JavaComplete-Imports-AddMissing)
-"imap <C-j>R <Plug>(JavaComplete-Imports-RemoveUnused)
-"imap <C-j>i <Plug>(JavaComplete-Imports-AddSmart)
-"imap <C-j>ii <Plug>(JavaComplete-Imports-Add)
-
-"nmap <leader>jM <Plug>(JavaComplete-Generate-AbstractMethods)
-
-"imap <C-j>jM <Plug>(JavaComplete-Generate-AbstractMethods)
-
-"nmap <leader>jA <Plug>(JavaComplete-Generate-Accessors)
-"nmap <leader>js <Plug>(JavaComplete-Generate-AccessorSetter)
-"nmap <leader>jg <Plug>(JavaComplete-Generate-AccessorGetter)
-"nmap <leader>ja <Plug>(JavaComplete-Generate-AccessorSetterGetter)
-"nmap <leader>jts <Plug>(JavaComplete-Generate-ToString)
-"nmap <leader>jeq <Plug>(JavaComplete-Generate-EqualsAndHashCode)
-"nmap <leader>jc <Plug>(JavaComplete-Generate-Constructor)
-"nmap <leader>jcc <Plug>(JavaComplete-Generate-DefaultConstructor)
-"imap <C-j>s <Plug>(JavaComplete-Generate-AccessorSetter)
-"imap <C-j>g <Plug>(JavaComplete-Generate-AccessorGetter)
-"imap <C-j>a <Plug>(JavaComplete-Generate-AccessorSetterGetter)
-
-"vmap <leader>js <Plug>(JavaComplete-Generate-AccessorSetter)
-"vmap <leader>jg <Plug>(JavaComplete-Generate-AccessorGetter)
-"vmap <leader>ja <Plug>(JavaComplete-Generate-AccessorSetterGetter)
-
 filetype plugin indent on
 syntax on
-
-""##for the syntastics---> checks for erreos
-""set statusline+=%#warningmsg#
-""set statusline+=%{SyntasticStatuslineFlag()}
-""set statusline+=%*
 
 let g:syntastic_auto_jump=3
 let g:syntastic_always_populate_loc_list = 1
@@ -78,15 +44,6 @@ elseif &filetype == 'c'
     exec "!time ./%<"
 endif
 endfunc
-
-"This also is helpful for java
-"let java_mark_braces_in_parens_as_errors=1
-let java_highlight_all=1
-let java_highlight_debug=1
-let java_ignore_javadoc=1
-let java_highlight_java_lang_ids=1
-let java_highlight_functions="style"
-let java_minlines = 150
 
 " General
 set directory^=$HOME/backups/  " put all swap files together in one place
@@ -128,19 +85,8 @@ set textwidth=0                " don't break lines after some maximum width
 set wildmenu                   " enhanced cmd line completion
 set ruler                      " shows ruler
 
-" gVim
-if has('gui_running')
-set guioptions-=m                " remove menu
-set guioptions-=T                " remove toolbar
-set guioptions-=r                " remove right scrollbar
-set guioptions-=b                " remove bottom scrollbar
-set guioptions-=L                " remove left scrollbar
-set guifont=Tamsyn\ 10.5         " setting gui font
-set guicursor+=a:block-blinkon0  " always use block cursor, no cursor blinking
-"" colorscheme jellybeans
-"fav
-"colorscheme freshcut-contrast
 colorscheme wal 
+
 " Paste from PRIMARY and CLIPBOARD
 inoremap <silent> <M-v> <Esc>"+p`]a
   inoremap <silent> <S-Insert> <Esc>"*p`]a
@@ -156,7 +102,6 @@ endif
 inoremap jj <esc>
 
 "Toogle Nerd tree
-"nmap <S-f> :NERDTreeToggle<CR>
 map <C-n> :NERDTreeToggle<CR>
 
 " Toggle fold
@@ -192,7 +137,6 @@ nnoremap <leader>m :call ToggleFoldMethod()<CR>
 nnoremap <F2> :set invpaste paste?<CR>
 nnoremap <leader>p :set invpaste paste?<CR>
 set pastetoggle=<F2>
-"nnoremap <leader>p :set paste?<CR>
 
 
 " Insert current date and time
@@ -210,13 +154,6 @@ vnoremap . :normal .<CR>
 nnoremap <leader>b :CtrlPBuffer<CR>
 nnoremap <leader>f :CtrlP<CR>
 nnoremap <leader>r :CtrlPMRUFiles<CR>
-
-" -- Plugin Settings -- " "let g:ctrlp_custom_ignore = {
-      "\ 'dir':  '\.git$\|\.hg$\|\.svn$\|__pycache__$',
-      "\ 'file': '\.pyc$\|\.so$\|\.swp$',
-j     "\ }
-
-"let g:dwm_master_pane_width=96
 
 " -- Functions -- "
 
@@ -236,7 +173,6 @@ endfunction
 
 "" COLORS
 set background=dark         
-"set t_Co=256
 
 """ AIRLINES themes
 let g:airline#extensions#tabline#enabled = 1
@@ -244,7 +180,6 @@ let g:airline_theme='distinguished'
 let g:airline_powerline_fonts=1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-
 
 " --python
 nnoremap <leader>c  :exec '!python3' shellescape(@%, 1)<cr>

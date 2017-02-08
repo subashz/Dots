@@ -1,0 +1,79 @@
+!  ██     ██                                                                        
+! ░░██   ██                                                                         
+!  ░░██ ██   ██████  █████   ██████  ██████  ██   ██ ██████  █████   █████   ██████ 
+!   ░░███   ░░██░░█ ██░░░██ ██░░░░  ██░░░░██░██  ░██░░██░░█ ██░░░██ ██░░░██ ██░░░░  
+!    ██░██   ░██ ░ ░███████░░█████ ░██   ░██░██  ░██ ░██ ░ ░██  ░░ ░███████░░█████  
+!   ██ ░░██  ░██   ░██░░░░  ░░░░░██░██   ░██░██  ░██ ░██   ░██   ██░██░░░░  ░░░░░██ 
+!  ██   ░░██░███   ░░██████ ██████ ░░██████ ░░██████░███   ░░█████ ░░██████ ██████  
+! ░░     ░░ ░░░     ░░░░░░ ░░░░░░   ░░░░░░   ░░░░░░ ░░░     ░░░░░   ░░░░░░ ░░░░░░   
+!SETTINGS
+URxvt*font:     xft:Terminus:style=bold:pixelsize=12
+
+*background: #0e181a
+*foreground: #FFFFFF
+!
+! ! black
+*color0:     #121212
+*color8:     #000000
+!
+! ! red
+*color1:     #cd7f8d
+*color9:     #FFC715
+!
+! ! green
+*color2:     #98bf47
+*color10:    #98bf47
+!
+! ! yellow
+*color3:     #FFC715
+*color11:    #EBB713
+!
+! ! blue
+*color4:     #58698C
+*color12:    #58698C
+!
+! ! magenta
+*color5:     #B23450
+*color13:    #B23450
+!
+! ! cyan
+*color6:     #56a8ac
+*color14:    #56a8ac
+!
+! ! white
+*color7:     #FFFFFF
+*color15:    #DDDDDD
+!
+! !cursor
+*cursorColor: #FFC715
+!URXVT SETTINGS
+!URxvt*dynamicColors: on
+URxvt.internalBorder: 15
+URxvt*lineSpace: 2
+URxvt*scrollBar: false
+URxvt*scrollColor: #131415
+URxvt.geometry: 80x18
+URxvt*saveLines: 1000
+URxvt*cursorUnderline: false
+URxvt*cursorColor: #AADB0F
+URxvt*cursorBlink: true
+URxvt*underlineColor: #303030
+URxvt*allow_bold: true
+
+!PERL
+URxvt*perl-lib: /usr/lib/urxvt/perl/
+URxvt*perl-ext-common : default,matcher
+
+!CLICKABLE LINKS
+URxvt*url-launcher: qutebrowser
+URxvt*matcher.button: 1
+
+!MISC
+Xcursor*theme: 		pixelfun
+Xcursor*size:  		16
+XTerm*scrollBar: 	false
+XTerm*rightScrollBar: 	false
+XTerm*dynamicColors: true
+XLogo*geometry: 	150x150
+Xclock*geometry: 	150x150-0-0
+Xclock*background: 	#121314
