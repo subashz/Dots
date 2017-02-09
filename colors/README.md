@@ -10,6 +10,9 @@ eg:
 - Update the xresources
 `xrdb /home/deadsec/.Xresources`
 
+### colors4
+![confirm_3](https://cloud.githubusercontent.com/assets/12681896/22781497/9f6bf18a-eeba-11e6-916d-d76a4d006cca.png)
+
 ### colors3
 ![minimal](https://cloud.githubusercontent.com/assets/12681896/22768818/683cabac-ee7c-11e6-804a-6062289a69b1.png)
 
