@@ -1,3 +1,5 @@
+#COlors Preview
+
 To apply the colors:
 
 - Git clone this repo
@@ -10,7 +12,7 @@ eg:
 
 ### colors3
 ![minimal](https://cloud.githubusercontent.com/assets/12681896/22768818/683cabac-ee7c-11e6-804a-6062289a69b1.png)
-# Colors Preview
+
 ### colors2
 ![confirm](https://cloud.githubusercontent.com/assets/12681896/22767703/1291a970-ee75-11e6-99a7-9de4be67456a.png)
 
