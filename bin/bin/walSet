@@ -1,0 +1,83 @@
+# 
+# Created by blacpythoz
+#
+
+# Source of colors
+source "${HOME}/.cache/wal/colors.sh"
+
+set_bar() {
+			pkill lemonbar 
+			~/bin/panel2 &
+}
+
+set_scss() {
+    sassc --style expanded ~/bin/startpage/old/scss/style.scss > ~/bin/startpage/old/style.css                      
+    sassc --style expanded ~/.config/qutebrowser/stylesheets/custom.scss > ~/.config/qutebrowser/stylesheets/custom.css                      
+}
+
+set_bspwm() {
+    bspc config focused_border_color "$color2" &
+    bspc config normal_border_color "$color0"  &
+}
+
+set_qute() {
+    pgrep qutebrowser && qutebrowser ":set ui user-stylesheet ~/.config/qutebrowser/stylesheets/custom.css" && qutebrowser ":set colors webpage.bg $color0" \
+    ":set colors completion.alternate-bg $color0" \
+    ":set colors completion.bg $color0" \
+    ":set colors downloads.bg.stop $color0" \
+    ":set colors statusbar.bg $color0" \
+    ":set colors tabs.bg.bar $color0" \
+    ":set colors tabs.bg.even $color0" \
+    ":set colors tabs.bg.odd $color0" \
+    ":set colors tabs.bg.selected.even $color0" \
+    ":set colors tabs.bg.selected.odd $color0" \
+    ":set colors completion.category.bg $color11" \
+    ":set colors completion.category.border.top $color11" \
+    ":set colors completion.category.border.bottom $color11" \
+    ":set colors statusbar.bg.insert $color11" \
+    ":set colors tabs.fg.selected.even $color1" \
+    ":set colors tabs.fg.selected.odd $color1" \
+    ":set colors hints.fg white" \
+    ":set colors hints.bg $color0" \
+    ":set colors hints.fg.match $color11" \
+    ":set colors statusbar.url.fg $color11" &
+}
+
+set_zathura() {
+    rm ~/.config/zathura/zathurarc
+    cp ~/.config/zathura/zathurarcTemplate ~/.config/zathura/zathurarc
+    echo "set recolor-lightcolor \"$color0\"" >> ~/.config/zathura/zathurarc
+    echo "set statusbar-bg \"$color0\"" >> ~/.config/zathura/zathurarc
+    echo "set statusbar-fg \"$color2\"" >> ~/.config/zathura/zathurarc
+    echo "set default-fg #ffffff" >> ~/.config/zathura/zathurarc
+    echo "set completion-fg \"$color2\"" >> ~/.config/zathura/zathurarc
+    echo "set completion-bg \"$color0\"" >> ~/.config/zathura/zathurarc
+    echo "set completion-highlight-fg \"$color0\"" >> ~/.config/zathura/zathurarc
+    echo "set completion-highlight-bg \"$color2\"" >> ~/.config/zathura/zathurarc
+    echo "set completion-group-bg \"$color0\"" >> ~/.config/zathura/zathurarc
+    echo "set completion-group-fg \"$color2\"" >> ~/.config/zathura/zathurarc
+    echo "set inputbar-bg \"$color0\"" >> ~/.config/zathura/zathurarc
+    echo "set inputbar-fg \"$color2\"" >> ~/.config/zathura/zathurarc
+    echo "set tabbar-focus-fg \"$color0\"" >> ~/.config/zathura/zathurarc
+    echo "set tabbar-focus-bg \"$color2\"" >> ~/.config/zathura/zathurarc
+}
+
+set_dmenu_extended()
+{
+    rm ~/.config/dmenu-extended/config/dmenuExtended_preferences.txt 
+    cp ~/.config/dmenu-extended/config/configTemplate ~/.config/dmenu-extended/config/dmenuExtended_preferences.txt 
+    sed -i "s/normalForeground/$color2/" .config/dmenu-extended/config/dmenuExtended_preferences.txt
+    sed -i "s/normalBackground/$color0/" .config/dmenu-extended/config/dmenuExtended_preferences.txt
+    sed -i "s/selectForeground/$color0/" .config/dmenu-extended/config/dmenuExtended_preferences.txt
+    sed -i "s/selectBackground/$color2/" .config/dmenu-extended/config/dmenuExtended_preferences.txt
+}
+
+main() {
+    set_scss &
+		set_qute &
+#    set_bar &
+    set_zathura &
+#    set_dmenu_extended &
+}
+
+main >/dev/null 2>&1

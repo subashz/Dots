@@ -1,0 +1,16 @@
+##other files
+set recolor true
+set recolor-lightcolor "#0F1627"
+set statusbar-bg "#0F1627"
+set statusbar-fg "#B53F65"
+set default-fg #ffffff
+set completion-fg "#B53F65"
+set completion-bg "#0F1627"
+set completion-highlight-fg "#0F1627"
+set completion-highlight-bg "#B53F65"
+set completion-group-bg "#0F1627"
+set completion-group-fg "#B53F65"
+set inputbar-bg "#0F1627"
+set inputbar-fg "#B53F65"
+set tabbar-focus-fg "#0F1627"
+set tabbar-focus-bg "#B53F65"

@@ -1,0 +1,83 @@
+#!/bin/bash
+
+source "$HOME/.cache/wal/colors.sh"
+
+bspc config focused_border_color "$color2"
+bspc config normal_border_color "$color0"
+PANEL_FONT1="terminus:style=Regular:size=7"
+PANEL_FONT2="-*-candy-*-*-*--8-*-*-*-*-*-*-*"
+PANEL_SIZE="1366x16"
+
+# color scheme
+#BG="#0C1115"
+BG="$color0"
+FG="$color1"
+BLK="#282828"
+CUR="#928364"
+
+{
+    desk() {
+        DSK=$(xprop -root _NET_CURRENT_DESKTOP | awk '{print $3}')
+        echo "%{F$BG}%{B$FG} $((DSK+1)) %{F-}%{B-}"
+    }
+
+    #music() {
+    #mus=$(mpc -f %artist% current)
+    #song=$(mpc -f %title% current)
+    #if [[ $song ]]; then
+    #	#echo %{F$FG}%{R}  %{R} $song %{F$CUR}$mus%{F-}
+    #	echo %{F$FG}%{R}  %{R} $song %{F-}
+    ##else
+    #	echo %{F$BLK}%{R}  %{R}%{F-}
+    #fi
+    #}
+
+    temperature() {
+        temp=$(sensors | grep "Physical id 0" | cut -d'+' -f2 | head -c2)
+        echo %{F$CUR}%{R}  %{R} $temp %{F-}
+    }
+
+    life() {
+        bat=$(cat /sys/class/power_supply/BAT1/capacity)
+        stat=$(cat /sys/class/power_supply/BAT1/status)
+        if test $stat = "Charging"; then
+            echo %{F$BG}%{B$FG}%{R} ++⌭ %{R}%{F$CUR}%{B-} $bat %{F-} 
+            #    echo %{F$CUR}%{B$FG}%{R}  %{R} $bat %{F-} 
+        else
+            echo %{F$BG}%{B$FG}%{R} -- %{R}%{F$CUR}%{B-} $bat %{F-} 
+            #echo %{F$BG}%{B$FG}%{R}  %{B$BG}%{F$CUR} $bat %{F-} 
+            #echo %{F$FG}%{R}   %{R} $bat %{F-} 
+        fi
+    }
+
+    clock() {
+        time=$(date "+%d %b %R")
+        echo %{F$BG}%{B$FG}%{R}  %{R}%{F$CUR}%{B$BG} $time %{F-}
+    }
+
+    wifi() {
+        status=$(iw wlp8s0 link | grep -q "Not connected.")
+        wifi_ssid=$(
+        if [ status ] ; then
+            iw wlp8s0 link | grep 'SSID' | sed 's/SSID: //' | sed 's/\t//'
+        else
+            echo "Not Connected"
+        fi)
+        echo %{F$BG}%{B$FG}%{R} ▼ %{R}%{F$CUR}%{B-} $wifi_ssid %{F-}
+    }
+
+    win() {
+        title=$(xtitle)
+        echo "%{F$CUR} ${title:0:50} %{F-}%{B-}"
+    }
+
+    statusbar(){
+        echo "$(desk) $(win)%{r}$(wifi)$(life)$(clock)"
+    }
+
+    while :; do
+        echo $(statusbar)
+        sleep 0.2
+    done
+
+} 2> /dev/null | lemonbar -f ${PANEL_FONT1} -f ${PANEL_FONT2} -g ${PANEL_SIZE} -B ${BG} -F ${FG} &

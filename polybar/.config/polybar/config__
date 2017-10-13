@@ -1,0 +1,220 @@
+[colors]
+background = #1C2023
+background-alt = #393F45
+foreground = #C7CCD1
+foreground-alt = #565E65
+primary = #C795AE
+secondary = #C7C795
+alert = #C79595
+
+[bar/main]
+monitor = LVDS1
+width = 99%
+height = 34
+offset-x = 9
+offset-y = 1%
+radius = 2.0
+fixed-center = false
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 3
+line-color = #C795AE
+
+border-size = 0
+border-color = #00000000
+
+padding-left = 0
+padding-right = 0
+
+module-margin-left = 0
+module-margin-right = 2
+
+font-0 = Hack:weight=Regular:size=10;1
+font-1 = Droid Sans:weight=Regular:size=10;3
+font-2 = Material Icons:pixelsize=13;4
+font-3 = FontAwesome:pixelsize=13;3
+
+modules-left = bspwm title
+modules-center = 
+modules-right = cpu memory filesystem date pavolume powermenu
+
+tray-position = right
+tray-padding = 2
+tray-background = ${colors.background}
+
+wm-restack = bspwm
+
+;override-redirect = true
+
+scroll-up = bspwm-desknext
+scroll-down = bspwm-deskprev
+
+[module/bspwm]
+type = internal/bspwm
+
+fuzzy-match = true
+
+format = <label-state> <label-mode>
+;label-monitor = %name%
+
+ws-icon-0 = terminal;
+ws-icon-1 = code;
+ws-icon-2 = web;
+ws-icon-3 = file;
+ws-icon-4 = misc;
+
+label-focused = %icon%
+label-focused-background = ${colors.background-alt}
+label-focused-underline= ${colors.primary}
+label-focused-padding = 2
+
+label-occupied = %icon%
+label-occupied-padding = 2
+
+label-urgent = %icon%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
+
+label-empty = %icon%
+label-empty-foreground = ${colors.foreground-alt}
+label-empty-padding = 2
+
+label-monocle = 
+label-tiled = 
+label-fullscreen = 
+label-floating = 
+label-pseudotiled = P
+label-locked = 
+label-locked-foreground = ${colors.alert}
+label-sticky = 
+label-sticky-foreground = ${colors.alert}
+label-private = 
+label-private-foreground = ${colors.alert}
+
+[module/title]
+type = internal/xwindow
+
+format-padding = 0
+format-foreground = #C7C795
+
+label = %title%
+label-maxlen = 70
+label-font = 2
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+label = %percentage%%
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+label = %percentage_used%%
+
+[module/filesystem]
+type = internal/fs
+interval = 25
+
+mount-0 = /
+
+label-mounted = %{F#565E65}%{F-} %percentage_used%%
+label-mounted-foreground = ${colors.foreground}
+label-unmounted = %mountpoint% not mounted
+label-unmounted-foreground = ${colors.foreground-alt}
+
+[module/eth]
+type = internal/network
+interface = ens33
+interval = 3.0
+
+format-connected-prefix = " "
+format-connected-prefix-foreground = ${colors.foreground-alt}
+label-connected = %local_ip%
+
+format-disconnected =
+;format-disconnected = <label-disconnected>
+;format-disconnected-underline = ${self.format-connected-underline}
+;label-disconnected = %ifname% disconnected
+;label-disconnected-foreground = ${colors.foreground-alt}
+
+[module/date]
+type = internal/date
+interval = 5
+
+date =
+date-alt = "%Y-%m-%d"
+
+time = "%I:%M"
+time-alt = "%I:%M:%S"
+
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+
+label = %time% %date%
+
+
+[module/pavolume]
+type = custom/script
+
+interval = 2
+label = %output%
+label-foreground = #95C7AE
+exec = ~/.bin/pavolume.sh
+
+click-right = exec pavucontrol
+click-left = ~/.bin/pavolume.sh --togmute
+scroll-up = ~/.bin/pavolume.sh --up
+scroll-down = ~/.bin/pavolume.sh --down
+
+[module/powermenu]
+type = custom/menu
+
+format-padding = 1
+
+label-open = " "
+label-open-foreground = ${colors.alert}
+label-close = " "
+label-close-foreground = ${colors.alert}
+
+menu-0-0 = "Log off | " 
+menu-0-0-foreground = ${colors.alert}
+menu-0-0-exec = bspc quit -1
+menu-0-1 = "Reboot | "
+menu-0-1-foreground = ${colors.alert}
+menu-0-1-exec = menu-open-1
+menu-0-2 = Power off
+menu-0-2-foreground = ${colors.alert}
+menu-0-2-exec = menu-open-2
+
+menu-1-0 = "Cancel | "
+menu-1-0-foreground = ${colors.alert}
+menu-1-0-exec = menu-open-0
+menu-1-1 = Reboot
+menu-1-1-foreground = ${colors.alert}
+menu-1-1-exec = reboot
+
+menu-2-0 = "Cancel | "
+menu-2-0-foreground = ${colors.alert}
+menu-2-0-exec = menu-open-0
+menu-2-1 = Power off
+menu-2-1-foreground = ${colors.alert}
+menu-2-1-exec = poweroff
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+
+; vim:ft=dosini

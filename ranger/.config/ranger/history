@@ -1,0 +1,22 @@
+search pacman
+search wal
+cd /home/deadsec/.oh-my-zsh
+rename ncmpcpp
+rename mpd
+cd .config/
+cd /home/deadsec/.config
+rename 
+mkdir decompile
+rename 21.jpg
+rename 1.jpg
+open_with 
+rename config_
+rename config
+rename drawable-xxhdpi
+rename ic_button_beat_box_pressed.9.png
+rename ic_button_beat_box_default.9.png
+
+mkdir .config/bspwm
+mkdir .config
+cd .config/bspwm/
+delete
